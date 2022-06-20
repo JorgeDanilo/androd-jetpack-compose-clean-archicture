@@ -1,1 +1,16 @@
-# androd-jetpack-compose-clean-archicture
+### Android Jetpack Compose Clean Archicture :)
+## <br/><br/>Built With 🛠
+- [Kotlin](https://kotlinlang.org/)
+- [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html)
+- [Compose](https://developer.android.com/jetpack/compose)
+- [Navigation](https://developer.android.com/guide/navigation)
+- [Android Architecture Components](https://developer.android.com/topic/libraries/architecture)
+    - [LiveData](https://developer.android.com/topic/libraries/architecture/livedata)
+    - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
+- [Hilt](https://dagger.dev/hilt/)
+- [Retrofit](https://square.github.io/retrofit/)
+- [GSON](https://github.com/google/gson)
+- [Coil](https://github.com/chrisbanes/accompanist/blob/main/coil/README.md)
+- [Accompanist](https://google.github.io/accompanist/)
+- [Material Components for Android](https://github.com/material-components/material-components-android) 
+
