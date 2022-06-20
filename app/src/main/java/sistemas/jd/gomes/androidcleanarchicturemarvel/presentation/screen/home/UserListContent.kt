@@ -59,6 +59,7 @@ fun UserListItem(user: User, navController: NavHostController) {
         Row(
             modifier = Modifier
                 .height(IntrinsicSize.Max)
+                .padding(start = 4.dp)
                 .fillMaxWidth()
                 .clickable {
                     navController.navigate(route = Screen.UserDetails.passUserId(user.id.toString()))
@@ -66,28 +67,23 @@ fun UserListItem(user: User, navController: NavHostController) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             user.avatar?.let {
-                Surface(
-                    modifier = Modifier.size(130.dp),
-                    shape = RoundedCornerShape(12.dp),
-                    color = MaterialTheme.colors.surface.copy(alpha = 0.2f)
-                ) {
-                    Image(
-                        modifier = Modifier
-                            .padding(
-                                end = 4.dp
-                            )
-                            .width(100.dp)
-                            .clip(shape = RoundedCornerShape(12.dp)),
-                        painter = rememberImagePainter(
-                            data = user.avatar, builder = {
-                                crossfade(true)
-                                scale(Scale.FILL)
-                            }
-                        ),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop
-                    )
-                }
+                Image(
+                    modifier = Modifier
+                        .padding(
+                            end = 4.dp
+                        )
+                        .width(100.dp)
+                        .clip(shape = androidx.compose.foundation.shape.CircleShape)
+                        .aspectRatio(1f),
+                    painter = rememberImagePainter(
+                        data = user.avatar, builder = {
+                            crossfade(true)
+                            scale(Scale.FILL)
+                        }
+                    ),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop
+                )
             }
 
             Column(
