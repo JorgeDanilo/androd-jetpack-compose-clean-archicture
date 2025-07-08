@@ -15,16 +15,16 @@ interface UserDao {
     suspend fun addUsers(user: List<User>)
 
     @Query("UPDATE users SET isFavorite = 1 WHERE id = :userId")
-    suspend fun favorite(userId: Int)
+    fun favorite(userId: Int)
 
     @Query("UPDATE users SET isFavorite = 0 WHERE id = :userId")
-    suspend fun unFavorite(userId: Int)
+    fun unFavorite(userId: Int)
 
     @Query("SELECT * FROM users WHERE isFavorite = 1")
-    suspend fun getAllFavorites(): Flow<List<User>>
+    fun getAllFavorites(): Flow<List<User>>
 
     @Query("SELECT EXISTS(SELECT 1 FROM users WHERE id = :userId AND isFavorite = 1)")
-    suspend fun isFavorite(userId: Int): Flow<Boolean>
+    fun isFavorite(userId: Int): Flow<Boolean>
 
     @Query("SELECT * FROM users")
     fun getAllUsers(): PagingSource<Int, User>

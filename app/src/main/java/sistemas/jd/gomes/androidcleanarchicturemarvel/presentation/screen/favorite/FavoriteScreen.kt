@@ -1,4 +1,4 @@
-package sistemas.jd.gomes.androidcleanarchicturemarvel.presentation.screen.home
+package sistemas.jd.gomes.androidcleanarchicturemarvel.presentation.screen.favorite
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -9,25 +9,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
-import sistemas.jd.gomes.androidcleanarchicturemarvel.presentation.screen.favorite.FavoriteViewModel
 import sistemas.jd.gomes.androidcleanarchicturemarvel.ui.theme.AppContentColor
 import sistemas.jd.gomes.androidcleanarchicturemarvel.ui.theme.AppThemColor
 
 @Composable
-fun HomeScreen(
+fun FavoriteScreen(
     navController: NavHostController,
-    viewModel: HomeViewModel = hiltViewModel(),
-    favoriteViewModel: FavoriteViewModel = hiltViewModel()
+    viewModel: FavoriteViewModel = hiltViewModel()
 ) {
 
     val systemUiController = rememberSystemUiController()
     val systemBarColor = MaterialTheme.colors.AppThemColor
-    val allUsers = viewModel.users.collectAsLazyPagingItems()
-    val searchQuery by viewModel.query.collectAsState()
+    val favoritesUsers by viewModel.favoritesUsers.collectAsState()
     val coroutineScope = rememberCoroutineScope()
+
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -39,20 +36,19 @@ fun HomeScreen(
         backgroundColor = MaterialTheme.colors.AppThemColor,
         contentColor = MaterialTheme.colors.AppContentColor,
         topBar = {
-            HomeTopBar(navController)
+            FavoriteTopBar(navController)
         },
         content = {
-            UserListContent(
-                allUsers = allUsers,
+            UserFavoritesContent(
+                favoritesUsers = favoritesUsers,
                 navController = navController,
-                searchQuery = searchQuery,
-                onQueryChanged = viewModel::onQueryChanged,
                 onClick = { user ->
                     coroutineScope.launch {
-                        favoriteViewModel.saveFavorite(user)
+                        viewModel.saveFavorite(user)
                     }
                 }
             )
         }
     )
 }
+
