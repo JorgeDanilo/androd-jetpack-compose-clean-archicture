@@ -16,7 +16,7 @@ class UserDetailsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _selectedUser: MutableStateFlow<User?> = MutableStateFlow(null)
-    val selectedUser: StateFlow<User?> = _selectedUser
+    val selectedUser: StateFlow<User?> = _selectedUser // TODO use sealed class for State
 
     fun getUserDetails(userId: Int) = viewModelScope.launch {
         userUserCase.getUsersFromDBUseCase.invoke(userId).collect {

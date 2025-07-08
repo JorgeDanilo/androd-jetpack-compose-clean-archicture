@@ -7,7 +7,7 @@ import sistemas.jd.gomes.domain.model.UserRemoteKeys
 
 @Database(
     entities = [User::class, UserRemoteKeys::class],
-    version = 1,
+    version = 2, // de 1 para 2
     exportSchema = false
 )
 abstract class UserDB : RoomDatabase() {

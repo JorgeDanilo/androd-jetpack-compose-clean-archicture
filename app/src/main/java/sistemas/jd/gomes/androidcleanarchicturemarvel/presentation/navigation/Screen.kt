@@ -5,4 +5,5 @@ sealed class Screen(val route: String) {
     object UserDetails : Screen("user_details_screen/{userId}") {
         fun passUserId(userId: String) = "user_details_screen/$userId"
     }
+    object Favorite : Screen("favorite_screen")
 }

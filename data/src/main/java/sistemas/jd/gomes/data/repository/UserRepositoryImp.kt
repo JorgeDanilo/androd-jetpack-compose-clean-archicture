@@ -26,4 +26,12 @@ class UserRepositoryImp(
             pagingSourceFactory = { userLocalDataSource.getUserByName(name) }
         )
     }
+
+    override fun getFavorites(): Flow<List<User>> {
+        return userLocalDataSource.getFavorites()
+    }
+
+    override fun saveFavorite(user: User) {
+        return userLocalDataSource.saveFavorite(user)
+    }
 }

@@ -2,6 +2,7 @@ package sistemas.jd.gomes.androidcleanarchicturemarvel.presentation.screen.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,15 +13,21 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -39,7 +46,8 @@ fun UserListContent(
     allUsers: LazyPagingItems<User>,
     navController: NavHostController,
     searchQuery: String,
-    onQueryChanged: (String) -> Unit
+    onQueryChanged: (String) -> Unit,
+    onClick: (User) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -64,7 +72,11 @@ fun UserListContent(
                 }
             ) { user ->
                 if (user != null) {
-                    UserListItem(user = user, navController = navController)
+                    UserListItem(user = user, onItemClick = {
+                        navController.navigate(route = Screen.UserDetails.passUserId(it.id.toString()))
+                    }, onClick = {
+                        onClick(user)
+                    })
                 }
             }
         }
@@ -73,7 +85,11 @@ fun UserListContent(
 }
 
 @Composable
-fun UserListItem(user: User, navController: NavHostController) {
+fun UserListItem(
+    user: User,
+    onItemClick: (User) -> Unit,
+    onClick: (User) -> Unit
+) {
     Card(
         modifier = Modifier
             .padding(top = 8.dp)
@@ -82,63 +98,87 @@ fun UserListItem(user: User, navController: NavHostController) {
         elevation = 4.dp,
         backgroundColor = MaterialTheme.colors.ItemBackgroundColor
     ) {
-        Row(
+        Box(
             modifier = Modifier
-                .height(IntrinsicSize.Max)
-                .padding(start = 4.dp)
                 .fillMaxWidth()
-                .clickable {
-                    navController.navigate(route = Screen.UserDetails.passUserId(user.id.toString()))
-                },
-            verticalAlignment = Alignment.CenterVertically
+                .padding(end = 4.dp)
         ) {
-            user.avatar?.let {
-                Image(
-                    modifier = Modifier
+            Row(
+                modifier = Modifier
+                    .height(IntrinsicSize.Max)
+                    .padding(start = 4.dp)
+                    .fillMaxWidth()
+                    .clickable {
+                        onItemClick(user)
+                    },
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                user.avatar?.let {
+                    Image(
+                        modifier = Modifier
+                            .padding(
+                                end = 4.dp
+                            )
+                            .width(100.dp)
+                            .clip(shape = androidx.compose.foundation.shape.CircleShape)
+                            .aspectRatio(1f),
+                        painter = rememberImagePainter(
+                            data = user.avatar, builder = {
+                                crossfade(true)
+                                scale(Scale.FILL)
+                            }
+                        ),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop
+                    )
+                }
+
+                Column(
+                    Modifier
+                        .height(IntrinsicSize.Max)
                         .padding(
-                            end = 4.dp
+                            end = 2.dp
                         )
-                        .width(100.dp)
-                        .clip(shape = androidx.compose.foundation.shape.CircleShape)
-                        .aspectRatio(1f),
-                    painter = rememberImagePainter(
-                        data = user.avatar, builder = {
-                            crossfade(true)
-                            scale(Scale.FILL)
-                        }
-                    ),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop
-                )
+                ) {
+                    user.firstName?.let { Text(text = it, style = MaterialTheme.typography.body1) }
+                    Spacer(modifier = Modifier.height(4.dp))
+                    user.lastName?.let {
+                        Text(
+                            text = it,
+                            style = MaterialTheme.typography.body2,
+                            maxLines = 4,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    user.email?.let {
+                        Text(
+                            text = it,
+                            style = MaterialTheme.typography.body2,
+                            maxLines = 4,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                }
             }
 
-            Column(
-                Modifier
-                    .height(IntrinsicSize.Max)
-                    .padding(
-                        end = 2.dp
+            IconButton(
+                onClick = {
+                    onClick(user)
+                },
+                modifier = Modifier
+                    .align(
+                        Alignment.CenterEnd
                     )
+                    .padding(end = 0.dp)
             ) {
-                user.firstName?.let { Text(text = it, style = MaterialTheme.typography.body1) }
-                Spacer(modifier = Modifier.height(4.dp))
-                user.lastName?.let {
-                    Text(
-                        text = it,
-                        style = MaterialTheme.typography.body2,
-                        maxLines = 4,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                user.email?.let {
-                    Text(
-                        text = it,
-                        style = MaterialTheme.typography.body2,
-                        maxLines = 4,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
+                Icon(
+                    imageVector = Icons.Default.Favorite,
+                    contentDescription = "Favorite",
+                    tint = if (user.isFavorite) Color.Red else Color.Black
+                )
             }
         }
     }
+
 }
