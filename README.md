@@ -35,7 +35,7 @@ MVVM Architecture with RemoteMediator and Paging3:
 ![mvvm_architecture.png](screenshot/mvvm_architecture.png)
 
 Clean Architecture with Jetpack Compose:
-![clean_architecture.png](screenshot/clean_architecture.png)
+![clean_architecture.png](screenshot/clean_architecture_diagram.png)
 
 ## 🔧 Camadas no Projeto
 
