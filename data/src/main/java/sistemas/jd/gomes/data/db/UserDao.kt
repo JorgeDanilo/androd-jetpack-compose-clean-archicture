@@ -22,4 +22,7 @@ interface UserDao {
 
     @Query("DELETE FROM users")
     suspend fun deleteAllUsers()
+
+    @Query("SELECT * FROM users WHERE firstName LIKE '%' || :name || '%'")
+    fun getUserByName(name: String): PagingSource<Int, User>
 }

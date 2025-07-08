@@ -4,4 +4,5 @@ import sistemas.jd.gomes.domain.repository.UserRepository
 
 class GetUsersUseCase(private val userRepository: UserRepository) {
     operator fun invoke() = userRepository.getUsers()
+    fun getUserByName(name: String) = userRepository.getUserByName(name)
 }
