@@ -9,6 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import sistemas.jd.gomes.data.db.UserDB
 import sistemas.jd.gomes.data.db.UserDao
 import sistemas.jd.gomes.data.db.UserRemoteKeysDao
+import sistemas.jd.gomes.data.migration.MIGRATION_1_2
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -16,7 +17,11 @@ object DatabaseModule {
 
     @Provides
     fun provideDatabase(app: Application): UserDB =
-        Room.databaseBuilder(app, UserDB::class.java, "user_db")
+        Room.databaseBuilder(
+            app,
+            UserDB::class.java,
+            "user_db")
+            .addMigrations(MIGRATION_1_2)
             .fallbackToDestructiveMigration()
             .build()
 

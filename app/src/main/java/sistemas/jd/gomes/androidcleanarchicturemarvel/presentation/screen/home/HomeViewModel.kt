@@ -42,5 +42,5 @@ class HomeViewModel @Inject constructor(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000),
             PagingData.empty()
-        )
+        ) // transform the flow to a StateFlow with initial value as empty PagingData
 }

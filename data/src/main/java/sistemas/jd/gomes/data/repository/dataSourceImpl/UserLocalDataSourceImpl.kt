@@ -12,4 +12,6 @@ class UserLocalDataSourceImpl(
 
     override fun getUsersFromDB(userId: Int): Flow<User> = userDao.getUser(userId)
     override fun getUserByName(name: String): PagingSource<Int, User> = userDao.getUserByName(name)
+    override fun getFavorites(): Flow<List<User>> = userDao.getAllFavorites()
+    override fun saveFavorite(user: User) = userDao.favorite(user.id)
 }

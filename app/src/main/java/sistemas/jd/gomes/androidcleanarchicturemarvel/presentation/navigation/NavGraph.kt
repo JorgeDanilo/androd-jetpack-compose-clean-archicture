@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import sistemas.jd.gomes.androidcleanarchicturemarvel.presentation.screen.detail.UserDetailsScreen
+import sistemas.jd.gomes.androidcleanarchicturemarvel.presentation.screen.favorite.FavoriteScreen
 import sistemas.jd.gomes.androidcleanarchicturemarvel.presentation.screen.home.HomeScreen
 import sistemas.jd.gomes.androidcleanarchicturemarvel.util.Constants
 
@@ -27,6 +28,9 @@ fun NavGraph(navController: NavHostController) {
         ) { backStackEntry ->
             backStackEntry.arguments?.getString(Constants.USER_DETAILS_ARGUMENT_KEY)
                 ?.let { UserDetailsScreen(it, navController) }
+        }
+        composable(route = Screen.Favorite.route) {
+             FavoriteScreen(navController = navController)
         }
     }
 }

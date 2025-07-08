@@ -1,8 +1,5 @@
-package sistemas.jd.gomes.androidcleanarchicturemarvel.presentation.screen.home
+package sistemas.jd.gomes.androidcleanarchicturemarvel.presentation.screen.favorite
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -10,31 +7,37 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import sistemas.jd.gomes.androidcleanarchicturemarvel.R
-import sistemas.jd.gomes.androidcleanarchicturemarvel.presentation.navigation.Screen
 import sistemas.jd.gomes.androidcleanarchicturemarvel.ui.theme.AppContentColor
 import sistemas.jd.gomes.androidcleanarchicturemarvel.ui.theme.AppThemColor
 
 @Composable
-fun HomeTopBar(
+fun FavoriteTopBar(
     navHostController: NavHostController
 ) {
-    val context = LocalContext.current
     TopAppBar(
         backgroundColor = MaterialTheme.colors.AppThemColor,
+        navigationIcon = {
+           IconButton({navHostController.popBackStack()}) {
+               Icon(
+                   imageVector = Icons.Default.ArrowBack,
+                   contentDescription = "Back Icon",
+                   tint = MaterialTheme.colors.AppContentColor,
+               )
+           }
+        },
         title = {
             Text(
-                text = stringResource(R.string.app_name),
+                text = stringResource(R.string.favorite_title),
                 color = MaterialTheme.colors.AppContentColor,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.fillMaxWidth(),
@@ -43,23 +46,13 @@ fun HomeTopBar(
         },
         elevation = 0.dp,
         actions = {
-            IconButton(onClick = {
-                navHostController.navigate(route = Screen.Favorite.route)
-            }) {
+            IconButton(onClick = {}) {
                 Icon(
-                    imageVector = Icons.Default.List,
-                    contentDescription = "Favorite List Icon",
-                    tint = Color.Black
+                    imageVector = Icons.Default.Favorite,
+                    contentDescription = "Favorite Icon",
+                    tint = Color.Red
                 )
             }
         }
     )
-}
-
-private fun showMessage(context: Context) {
-    val browserIntent = Intent(
-        Intent.ACTION_VIEW,
-        Uri.parse("https://github.com/JorgeDanilo")
-    )
-    ContextCompat.startActivity(context, browserIntent, null)
 }
